@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cabeleleila/app/theme.dart';
 import 'package:cabeleleila/routes/routes_settings.dart';
 import 'package:cabeleleila/services/internet/connection.dart';
+import 'package:cabeleleila/viewmodel/alter_password_viewmodel.dart';
 import 'package:cabeleleila/viewmodel/email_for_reset_password_viewmodel.dart';
 import 'package:cabeleleila/viewmodel/sign_in_viewmodel.dart';
 import 'package:cabeleleila/viewmodel/sign_out_viewmodel.dart';
@@ -46,9 +47,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => SignOutViewModel()),
         ChangeNotifierProvider(create: (_) => EmailForResetPasswordViewmodel()),
         ChangeNotifierProvider(create: (_) => VerifyOTPViewModel()),
+        ChangeNotifierProvider(create: (_) => AlterPasswordViewmodel()),
       ],
       child: MaterialApp.router(
         title: 'Cabeleleila leila',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           scaffoldBackgroundColor: ColorSchemeManagerClass.colorSecondary,

@@ -49,7 +49,16 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 50.0,
                 children: [
-                  CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                  Column(
+                    spacing: 20.0,
+                    children: [
+                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text('Faça login com seu e-mail e senha para acessar sua conta. Caso ainda não tenha uma, cadastre-se rapidamente. Segurança garantida!', textAlign: TextAlign.center),
+                      )
+                    ],
+                  ),
                   Column(
                     spacing: 15.0,
                     children: [
@@ -73,49 +82,53 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                               () => maxTwoHundredCharacters(value),
                             ]),
                       ),
-                      TextFormFieldWidget(
-                        labelText: 'Senha',
-                        autofocus: false,
-                        controller: _passwordController,
-                        inputBorderType: OutlineInputBorder(),
-                        inputType: TextInputType.emailAddress,
-                        obscure: _obscurePassword,
-                        sizeInputBorder: 2.0,
-                        fillColor: ColorSchemeManagerClass.colorSecondary,
-                        filled: true,
-                        iconSuffix: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: ColorSchemeManagerClass.colorPrimary,
+                      Column(
+                        children: [
+                          TextFormFieldWidget(
+                            labelText: 'Senha',
+                            autofocus: false,
+                            controller: _passwordController,
+                            inputBorderType: OutlineInputBorder(),
+                            inputType: TextInputType.emailAddress,
+                            obscure: _obscurePassword,
+                            sizeInputBorder: 2.0,
+                            fillColor: ColorSchemeManagerClass.colorSecondary,
+                            filled: true,
+                            iconSuffix: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                color: ColorSchemeManagerClass.colorPrimary,
+                              ),
+                            ),
+                            validator:
+                                (value) => combine([
+                                  () => isNotEmpyt(value),
+                                  () => hasSixChars(value),
+                                  () => maxTwoHundredCharacters(value),
+                                ]),
                           ),
-                        ),
-                        validator:
-                            (value) => combine([
-                              () => isNotEmpyt(value),
-                              () => hasSixChars(value),
-                              () => maxTwoHundredCharacters(value),
-                            ]),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: GestureDetector(
-                          onTap: () => context.push('/emailForResetPasswordView'),
-                          child: Text(
-                            "Esqueci minha senha",
-                            style: TextStyle(
-                              color: ColorSchemeManagerClass.colorBlack,
-                              decoration: TextDecoration.underline,
-                              decorationColor: ColorSchemeManagerClass.colorPrimary,
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () => context.push('/emailForResetPasswordView'),
+                              child: Text(
+                                "Esqueci minha senha",
+                                style: TextStyle(
+                                  color: ColorSchemeManagerClass.colorBlack,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: ColorSchemeManagerClass.colorPrimary,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),

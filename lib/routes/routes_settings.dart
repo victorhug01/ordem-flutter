@@ -1,5 +1,6 @@
 import 'package:cabeleleila/services/internet/connection.dart';
 import 'package:cabeleleila/services/supabse/supabase_service.dart';
+import 'package:cabeleleila/view/auth/alterPassword/alter_password_view.dart';
 import 'package:cabeleleila/view/auth/emailForResetPassword/email_for_reset_password_view.dart';
 import 'package:cabeleleila/view/auth/signUp/sign_up_view.dart';
 import 'package:cabeleleila/view/auth/verifyOTP/verify_otp_view.dart';
@@ -19,12 +20,16 @@ class Routers {
         '/signIn',
         '/signUp',
         '/emailForResetPasswordView',
-        '/verifyOTP'
+        '/verifyOTP',
+        '/alterPasswordView',
       };
 
       if(!hasConnection) return '/connectivity';
 
       if(session.session ==  null && !publicRoutes.contains(state.matchedLocation)) return '/signIn';
+
+      if (session.session != null && state.matchedLocation == '/alterPasswordView') return null;
+
 
       if(session.session != null && publicRoutes.contains(state.matchedLocation)) return '/home';
 
@@ -73,6 +78,13 @@ class Routers {
         builder: (BuildContext context, GoRouterState state) {
           final email = state.extra as String? ?? '';
           return VerifyOTPView(email: email);
+        },
+      ),
+      GoRoute(
+        path: '/alterPasswordView',
+        name: 'alterPasswordView',
+        builder: (BuildContext context, GoRouterState state) {
+          return const AlterPasswordView();
         },
       ),
     ]

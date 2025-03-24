@@ -6,15 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
-class VerifyOTPView extends StatelessWidget {
+class VerifyOTPView extends StatefulWidget {
   final String email;
 
   const VerifyOTPView({super.key, required this.email});
 
   @override
+  State<VerifyOTPView> createState() => _VerifyOTPViewState();
+}
+
+class _VerifyOTPViewState extends State<VerifyOTPView> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Limpar o campo quando a tela for reconstruída
+    Provider.of<VerifyOTPViewModel>(context, listen: false).controller.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final emailViewModel = Provider.of<EmailForResetPasswordViewmodel>(context, listen: false);
-
     Provider.of<VerifyOTPViewModel>(context, listen: false).startCountdown();
 
     return Scaffold(
@@ -32,10 +43,7 @@ class VerifyOTPView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/icon.jpg'),
-                  radius: 80,
-                ),
+                CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
                 Column(
                   children: [
                     Text(
@@ -43,7 +51,7 @@ class VerifyOTPView extends StatelessWidget {
                       style: TextStyle(fontSize: 18, color: ColorSchemeManagerClass.colorBlack),
                     ),
                     Text(
-                      email,
+                      widget.email,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -74,10 +82,11 @@ class VerifyOTPView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onCompleted: (pin) => verifyOTPViewModel.verifyOTP(
-                          VerifyOtpModel(email: email, otpCode: pin),
-                          context,
-                        ),
+                        onCompleted:
+                            (pin) => verifyOTPViewModel.verifyOTP(
+                              VerifyOtpModel(email: widget.email, otpCode: pin),
+                              context,
+                            ),
                       );
                     },
                   ),
@@ -86,25 +95,22 @@ class VerifyOTPView extends StatelessWidget {
                   builder: (context, verifyOTPViewModel, child) {
                     return verifyOTPViewModel.remainingTime > 0
                         ? Text(
-                            "Reenviar código em ${verifyOTPViewModel.remainingTime}s",
+                          "Reenviar código em ${verifyOTPViewModel.remainingTime}s",
+                          style: TextStyle(fontSize: 16, color: ColorSchemeManagerClass.colorGrey),
+                        )
+                        : TextButton(
+                          onPressed: () {
+                            verifyOTPViewModel.resendCode(emailViewModel, widget.email, context);
+                          },
+                          child: Text(
+                            "Reenviar código",
                             style: TextStyle(
                               fontSize: 16,
-                              color: ColorSchemeManagerClass.colorGrey,
+                              color: ColorSchemeManagerClass.colorPrimary,
+                              fontWeight: FontWeight.bold,
                             ),
-                          )
-                        : TextButton(
-                            onPressed: () {
-                              verifyOTPViewModel.resendCode(emailViewModel, email, context);
-                            },
-                            child: Text(
-                              "Reenviar código",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: ColorSchemeManagerClass.colorPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
+                          ),
+                        );
                   },
                 ),
               ],

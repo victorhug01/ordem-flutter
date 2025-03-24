@@ -21,6 +21,8 @@ class VerifyOTPViewModel extends ChangeNotifier {
 
   VerifyOTPViewModel() {
     startCountdown(); // Inicia automaticamente o contador
+    controller.clear(); // Limpar o campo de PIN ao reenviar o código
+    notifyListeners();
   }
 
   void startCountdown() {
@@ -50,7 +52,8 @@ class VerifyOTPViewModel extends ChangeNotifier {
         type: OtpType.recovery,
       );
       if (context.mounted) {
-        context.push('/alter_password');
+        controller.clear();
+        context.go('/alterPasswordView');
       }
     } catch (e) {
       if (context.mounted) {

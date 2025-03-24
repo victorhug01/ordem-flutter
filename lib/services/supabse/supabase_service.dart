@@ -16,6 +16,10 @@ class SupabaseService{
     return supabase.auth.resetPasswordForEmail(email);
   }
 
+  Future updateUser(String password) async {
+    return supabase.auth.updateUser(UserAttributes(password: password));
+  }
+
   Future signOut() async {
     supabase.auth.signOut();
   }
