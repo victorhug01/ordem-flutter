@@ -177,7 +177,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.push('/sigIn'),
+            onTap: () => context.pop(),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

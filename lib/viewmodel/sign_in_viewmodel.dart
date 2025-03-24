@@ -30,7 +30,7 @@ class SignInViewModel extends ChangeNotifier {
         final response = await _supabaseService.signIn(signInModel.email, signInModel.password);
         if (response.session != null) {
           if (context.mounted) {
-            context.go('/home');
+            context.go('/navigationScreens');
           }
         } else {
           throw Exception("Falha ao autenticar");

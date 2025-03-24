@@ -30,7 +30,7 @@ class SignUpViewModel extends ChangeNotifier {
         final response = await _supabaseService.signUp(signUpModel.email, signUpModel.password);
         if (response.session != null) {
           if (context.mounted) {
-            context.go('/home');
+            context.go('/navigationScreens');
             SnackbarService.showDetails(
               context,
               "Cadastro realizado com sucesso!",

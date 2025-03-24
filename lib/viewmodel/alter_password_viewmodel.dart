@@ -13,7 +13,7 @@ class AlterPasswordViewmodel extends ChangeNotifier {
       if (alterPasswordForm.currentState!.validate()) {
         _supabaseService.updateUser(alterPasswordModel.password);
         if (context.mounted) {
-          context.go('/home');
+          context.go('/navigationScreens');
           SnackbarService.showDetails(
           context,
           "Senha alterada com sucesso!",

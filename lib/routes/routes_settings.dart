@@ -2,11 +2,14 @@ import 'package:cabeleleila/services/internet/connection.dart';
 import 'package:cabeleleila/services/supabse/supabase_service.dart';
 import 'package:cabeleleila/view/auth/alterPassword/alter_password_view.dart';
 import 'package:cabeleleila/view/auth/emailForResetPassword/email_for_reset_password_view.dart';
+import 'package:cabeleleila/view/history/history_view.dart';
+import 'package:cabeleleila/view/navigationScreens/navigation_screens_view.dart';
 import 'package:cabeleleila/view/auth/signUp/sign_up_view.dart';
 import 'package:cabeleleila/view/auth/verifyOTP/verify_otp_view.dart';
 import 'package:cabeleleila/view/home/home_view.dart';
 import 'package:cabeleleila/view/internet/internet_not_found_view.dart';
 import 'package:cabeleleila/view/auth/signIn/sign_in_view.dart';
+import 'package:cabeleleila/view/services/services_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,7 +34,7 @@ class Routers {
       if (session.session != null && state.matchedLocation == '/alterPasswordView') return null;
 
 
-      if(session.session != null && publicRoutes.contains(state.matchedLocation)) return '/home';
+      if(session.session != null && publicRoutes.contains(state.matchedLocation)) return '/navigationScreens';
 
       return null;
       
@@ -85,6 +88,27 @@ class Routers {
         name: 'alterPasswordView',
         builder: (BuildContext context, GoRouterState state) {
           return const AlterPasswordView();
+        },
+      ),
+      GoRoute(
+        path: '/navigationScreens',
+        name: 'navigationScreens',
+        builder: (BuildContext context, GoRouterState state) {
+          return const NavigationScreensView();
+        },
+      ),
+      GoRoute(
+        path: '/servicesView',
+        name: 'servicesView',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ServicesView();
+        },
+      ),
+      GoRoute(
+        path: '/history',
+        name: 'history',
+        builder: (BuildContext context, GoRouterState state) {
+          return const HistoryView();
         },
       ),
     ]

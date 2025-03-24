@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:cabeleleila/viewmodel/services_viewmodel.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cabeleleila/app/theme.dart';
 import 'package:cabeleleila/routes/routes_settings.dart';
 import 'package:cabeleleila/services/internet/connection.dart';
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => EmailForResetPasswordViewmodel()),
         ChangeNotifierProvider(create: (_) => VerifyOTPViewModel()),
         ChangeNotifierProvider(create: (_) => AlterPasswordViewmodel()),
+        ChangeNotifierProvider(create: (_) => ServicesViewmodel()),
       ],
       child: MaterialApp.router(
         title: 'Cabeleleila leila',
@@ -60,6 +62,16 @@ class _MyAppState extends State<MyApp> {
             elevation: 0.0
           )
         ),
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('pt', 'BR'),
+        ],
+        locale: Locale('pt', 'BR'),
+        localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
         routerConfig: routes.routesConfig,
       ),
     );

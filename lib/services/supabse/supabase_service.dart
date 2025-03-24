@@ -20,6 +20,10 @@ class SupabaseService{
     return supabase.auth.updateUser(UserAttributes(password: password));
   }
 
+  Future getServices() async {
+    return supabase.from('services').select();
+  }
+
   Future signOut() async {
     supabase.auth.signOut();
   }
