@@ -18,9 +18,6 @@ Durante o desafio proposto, optei por utilizar **Flutter** para o desenvolviment
 - Login com validação de credenciais.
 - Recuperação de senha via token (envio de e-mail com código para redefinição).
 
-### ✅ Página Principal (Home)
-- Design ilustrativo com os serviços disponíveis no salão.
-- Botão de agendamento direto, facilitando a marcação.
 
 ## 💡 Próximas Etapas (Planejadas)
 - Implementação do agendamento online com restrições de alteração (até 2 dias antes).
