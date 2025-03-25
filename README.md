@@ -65,6 +65,18 @@ Durante o desafio proposto, optei por utilizar **Flutter** para o desenvolviment
 ## 💡 Desafios e Aprendizados
 Apesar de não ter concluído todas as funcionalidades no prazo devido a imprevistos pessoais, a estrutura base está sólida e funcional. O **Supabase** mostrou-se uma excelente escolha para acelerar o desenvolvimento, especialmente na parte de autenticação e gerenciamento de dados.
 
+<img src="https://github.com/user-attachments/assets/aa6b66f0-b6c4-4225-82d7-b8b0e9f70f6a" width="300" />
+<img src="https://github.com/user-attachments/assets/f586604e-263f-4ef6-9af0-c52e2a4428e7" width="300" />
+<img src="https://github.com/user-attachments/assets/e1afcdfe-b645-478d-8ccc-39c886e7b7bd" width="300" />
+<img src="https://github.com/user-attachments/assets/d7b30c10-d1dd-4b90-a861-58f26a5982a1" width="300" />
+<img src="https://github.com/user-attachments/assets/6addb3dc-e2a3-4f1d-bf81-2d789de3a9a2" width="300" />
+<img src="https://github.com/user-attachments/assets/d0e98193-fabe-4e9e-9b2b-fc865fee53ac" width="300" />
+<img src="https://github.com/user-attachments/assets/8078c024-6263-4cb4-bdca-f1f0b7f36f1f" width="300" />
+<img src="https://github.com/user-attachments/assets/2d9ada44-1bd9-4fea-9bc7-9b075f4ec018" width="300" />
+<img src="https://github.com/user-attachments/assets/a27237c2-3fb3-49c8-902c-b1759850d807" width="300" />
+<img src="https://github.com/user-attachments/assets/fa58e538-c917-4bc3-9cda-3b789c89bb2e" width="300" />
+<img src="https://github.com/user-attachments/assets/28a193a6-1024-4cf5-92f9-33cefeecc1c4" width="300" />
+
 
 ![Screenshot_20250325-173341](https://github.com/user-attachments/assets/aa6b66f0-b6c4-4225-82d7-b8b0e9f70f6a)
 ![Screenshot_20250325-173330](https://github.com/user-attachments/assets/f586604e-263f-4ef6-9af0-c52e2a4428e7)
