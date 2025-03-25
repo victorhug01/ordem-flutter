@@ -5,8 +5,7 @@ Um projeto de teste para DSIN tecnologia
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
-[📥 Download APK]([https://github.com/victorhug01/cabeleleila-leila/blob/main/assets/app-release.apk])
+[📥 Download APK](https://github.com/victorhug01/cabeleleila-leila/blob/main/assets/app-release.apk)
 
 A few resources to get you started if this is your first Flutter project:
 
