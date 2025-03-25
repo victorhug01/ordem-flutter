@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
+/// Classe principal do aplicativo que utiliza um [StatefulWidget].
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -22,27 +23,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /// Listener para monitorar o status da conexão com a internet.
   late final StreamSubscription<InternetConnectionStatus> listner;
 
   @override
   void initState() {
     super.initState();
+    
+    // Inicia o listener para monitorar mudanças no status da conexão com a internet.
     listner = InternetConnectionChecker.createInstance().onStatusChange.listen((status) {
       final notifier = ConnectionNotifier.of(context);
+      
+      // Atualiza o estado da conexão conforme a resposta do InternetConnectionChecker.
       notifier.value = status == InternetConnectionStatus.connected ? true : false;
     });
   }
 
   @override
   void dispose() {
+    // Cancela o listener quando o widget for descartado.
     listner.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final routes = Routers();
+    
     return MultiProvider(
       providers: [
+        // Fornece os ViewModels necessários para a aplicação.
         ChangeNotifierProvider(create: (_) => SignInViewModel()),
         ChangeNotifierProvider(create: (_) => SignUpViewModel()),
         ChangeNotifierProvider(create: (_) => SignOutViewModel()),
@@ -52,26 +62,32 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ServicesViewmodel()),
       ],
       child: MaterialApp.router(
-        title: 'Cabeleleila leila',
+        title: 'Cabeleleila Leila',
         debugShowCheckedModeBanner: false,
+        
+        // Define o tema principal da aplicação.
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           scaffoldBackgroundColor: ColorSchemeManagerClass.colorSecondary,
           appBarTheme: AppBarTheme(
             backgroundColor: ColorSchemeManagerClass.colorSecondary,
-            elevation: 0.0
-          )
+            elevation: 0.0,
+          ),
         ),
-        supportedLocales: [
+        
+        // Configura as localizações suportadas no app.
+        supportedLocales: const [
           Locale('en', 'US'),
           Locale('pt', 'BR'),
         ],
-        locale: Locale('pt', 'BR'),
-        localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+        locale: const Locale('pt', 'BR'),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        
+        // Configuração das rotas da aplicação.
         routerConfig: routes.routesConfig,
       ),
     );

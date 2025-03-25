@@ -18,18 +18,19 @@ class EmailForResetPasswordView extends StatefulWidget {
 
 class _EmailForResetPasswordViewState extends State<EmailForResetPasswordView> with ValidationMixinClass {
   final _emailController = TextEditingController();
-  final _emailForRsetPasswordForm = GlobalKey<FormState>();
+  final _emailForRsetPasswordForm = GlobalKey<FormState>(); // Formulário para validar o email
 
   @override
   void dispose() {
-     _emailController.dispose();
+    _emailController.dispose(); // Libera o controlador do email quando a tela for descartada
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final emailForResetPasswordViewModel = Provider.of<EmailForResetPasswordViewmodel>(context);
-    final responsive = ResponsiveUtils(context);
+    final emailForResetPasswordViewModel = Provider.of<EmailForResetPasswordViewmodel>(context); // Acessa o ViewModel
+    final responsive = ResponsiveUtils(context); // Responsividade
+
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: ColorSchemeManagerClass.colorSecondary,
@@ -41,7 +42,7 @@ class _EmailForResetPasswordViewState extends State<EmailForResetPasswordView> w
           child: SingleChildScrollView(
             reverse: true,
             child: Form(
-              key: _emailForRsetPasswordForm,
+              key: _emailForRsetPasswordForm, // Formulário de redefinição de senha
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,11 +52,15 @@ class _EmailForResetPasswordViewState extends State<EmailForResetPasswordView> w
                     spacing: 10.0,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone de usuário
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text('Esqueceu sua senha? Informe seu e-mail e enviaremos um código de redefinição. Verifique sua caixa de entrada (ou spam) e siga as instruções.', textAlign: TextAlign.center),
+                        child: Text(
+                          'Esqueceu sua senha? Informe seu e-mail e enviaremos um código de redefinição. Verifique sua caixa de entrada (ou spam) e siga as instruções.',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      // Campo de email
                       TextFormFieldWidget(
                         labelText: 'Email',
                         autofocus: false,
@@ -66,21 +71,21 @@ class _EmailForResetPasswordViewState extends State<EmailForResetPasswordView> w
                         sizeInputBorder: 2.0,
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
-                        validator:
-                            (value) => combine([
-                              () => isNotEmpyt(value),
-                              () =>
-                                  EmailValidator.validate(value.toString())
-                                      ? null
-                                      : "Email inválido!",
-                              () => maxTwoHundredCharacters(value),
-                            ]),
+                        validator: (value) => combine([ // Validação do email
+                          () => isNotEmpyt(value),
+                          () =>
+                              EmailValidator.validate(value.toString())
+                                  ? null
+                                  : "Email inválido!", // Valida se o email é válido
+                          () => maxTwoHundredCharacters(value),
+                        ]),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: responsive.height / 9,
+                    height: responsive.height / 9, // Ajuste da altura conforme a tela
                   ),
+                  // Botão de envio
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -94,7 +99,7 @@ class _EmailForResetPasswordViewState extends State<EmailForResetPasswordView> w
                     height: 55.0,
                     width: 1.7,
                     onPressed: () async {
-                      await emailForResetPasswordViewModel.resetPasswordForEmail(
+                      await emailForResetPasswordViewModel.resetPasswordForEmail( // Chama o método do ViewModel para enviar o código de redefinição
                         EmailForResetPasswordModel(email: _emailController.text),
                         context, _emailForRsetPasswordForm,
                       );

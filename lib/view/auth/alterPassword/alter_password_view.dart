@@ -19,7 +19,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _alterPasswordForm = GlobalKey<FormState>();
-  bool _obscurePassword = true;
+  bool _obscurePassword = true; // Controla a visibilidade da senha
 
   @override
   void dispose() {
@@ -30,7 +30,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
 
   @override
   Widget build(BuildContext context) {
-    final alterPasswordViewmodel = Provider.of<AlterPasswordViewmodel>(context);
+    final alterPasswordViewmodel = Provider.of<AlterPasswordViewmodel>(context); // Acessa o ViewModel
     return Scaffold(
       appBar: AppBar(),
       extendBody: true,
@@ -49,10 +49,11 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 50.0,
                 children: [
-                  CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                  CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone do usuário
                   Column(
                     spacing: 15.0,
                     children: [
+                      // Campo de senha
                       TextFormFieldWidget(
                         labelText: 'Senha',
                         autofocus: false,
@@ -66,7 +67,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword;
+                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
                             });
                           },
                           icon: Icon(
@@ -77,12 +78,13 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                           ),
                         ),
                         validator:
-                            (value) => combine([
+                            (value) => combine([ // Validações para a senha
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
                             ]),
                       ),
+                      // Campo de confirmação de senha
                       TextFormFieldWidget(
                         labelText: 'Confirmar senha',
                         autofocus: false,
@@ -96,7 +98,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword;
+                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
                             });
                           },
                           icon: Icon(
@@ -107,15 +109,16 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                           ),
                         ),
                         validator:
-                            (value) => combine([
+                            (value) => combine([ // Validações para a confirmação de senha
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
-                              () => value != _passwordController.text ? 'Senhas diferentes' : null,
+                              () => value != _passwordController.text ? 'Senhas diferentes' : null, // Senhas precisam ser iguais
                             ]),
                       ),
                     ],
                   ),
+                  // Botão para redefinir senha
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -130,7 +133,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                     width: 1.7,
                     onPressed: () async {
                       await alterPasswordViewmodel.updateUser(
-                        AlterPasswordModel(password: _passwordController.text),
+                        AlterPasswordModel(password: _passwordController.text), // Atualiza a senha
                         context, _alterPasswordForm,
                       );
                     },
@@ -145,7 +148,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.push('/signUp'),
+            onTap: () => context.push('/signUp'), // Redireciona para a tela de cadastro
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

@@ -19,13 +19,14 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Limpar o campo quando a tela for reconstruída
+    // Limpa o campo de OTP quando a tela for reconstruída
     Provider.of<VerifyOTPViewModel>(context, listen: false).controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     final emailViewModel = Provider.of<EmailForResetPasswordViewmodel>(context, listen: false);
+    // Inicia o contador para o envio do OTP
     Provider.of<VerifyOTPViewModel>(context, listen: false).startCountdown();
 
     return Scaffold(
@@ -44,6 +45,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                // Exibe o email para o qual o código foi enviado
                 Column(
                   children: [
                     Text(
@@ -61,6 +63,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                   ],
                 ),
                 const SizedBox(height: 10),
+                // Campo de entrada de OTP (código)
                 Align(
                   alignment: Alignment.center,
                   child: Consumer<VerifyOTPViewModel>(
@@ -82,35 +85,36 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onCompleted:
-                            (pin) => verifyOTPViewModel.verifyOTP(
-                              VerifyOtpModel(email: widget.email, otpCode: pin),
-                              context,
-                            ),
+                        onCompleted: (pin) => verifyOTPViewModel.verifyOTP(
+                          VerifyOtpModel(email: widget.email, otpCode: pin),
+                          context,
+                        ), // Verifica o código OTP quando completado
                       );
                     },
                   ),
                 ),
+                // Exibe a contagem regressiva ou opção de reenviar o código
                 Consumer<VerifyOTPViewModel>(
                   builder: (context, verifyOTPViewModel, child) {
                     return verifyOTPViewModel.remainingTime > 0
                         ? Text(
-                          "Reenviar código em ${verifyOTPViewModel.remainingTime}s",
-                          style: TextStyle(fontSize: 16, color: ColorSchemeManagerClass.colorGrey),
-                        )
+                            "Reenviar código em ${verifyOTPViewModel.remainingTime}s",
+                            style: TextStyle(fontSize: 16, color: ColorSchemeManagerClass.colorGrey),
+                          )
                         : TextButton(
-                          onPressed: () {
-                            verifyOTPViewModel.resendCode(emailViewModel, widget.email, context);
-                          },
-                          child: Text(
-                            "Reenviar código",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: ColorSchemeManagerClass.colorPrimary,
-                              fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              // Reenvia o código OTP caso o tempo tenha expirado
+                              verifyOTPViewModel.resendCode(emailViewModel, widget.email, context);
+                            },
+                            child: Text(
+                              "Reenviar código",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: ColorSchemeManagerClass.colorPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        );
+                          );
                   },
                 ),
               ],

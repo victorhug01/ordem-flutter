@@ -11,6 +11,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  bool _isLoggingOut = false; // Para controlar o estado do botão de logout
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +20,26 @@ class _HomeViewState extends State<HomeView> {
         elevation: 0,
         title: const Text("Home"),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () async => await context.read<SignOutViewModel>().signOut(SignOutModel(), context),
-          ),
+          _isLoggingOut
+              ? const CircularProgressIndicator() // Mostrar indicador de progresso
+              : IconButton(
+                  icon: const Icon(Icons.exit_to_app),
+                  onPressed: () async {
+                    setState(() {
+                      _isLoggingOut = true; // Ativar indicador de progresso
+                    });
+
+                    // Realizar o logout
+                    await context.read<SignOutViewModel>().signOut(SignOutModel(), context);
+
+                    setState(() {
+                      _isLoggingOut = false; // Desativar indicador de progresso
+                    });
+
+                    // Após o logout, redireciona para a tela de login
+                    // context.push('/signIn'); // Ou use outra navegação dependendo do seu fluxo
+                  },
+                ),
         ],
       ),
       body: Center(

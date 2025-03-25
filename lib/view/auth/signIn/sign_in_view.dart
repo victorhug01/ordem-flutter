@@ -24,14 +24,14 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
 
   @override
   void dispose() {
-     _emailController.dispose();
-    _passwordController.dispose();
+     _emailController.dispose(); // Libera o controlador de email quando a tela for descartada
+    _passwordController.dispose(); // Libera o controlador de senha quando a tela for descartada
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final signInViewModel = Provider.of<SignInViewModel>(context);
+    final signInViewModel = Provider.of<SignInViewModel>(context); // Acessa o ViewModel de login
     return Scaffold(
       extendBody: true,
       backgroundColor: ColorSchemeManagerClass.colorSecondary,
@@ -43,7 +43,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
           child: SingleChildScrollView(
             reverse: true,
             child: Form(
-              key: _signInKeyForm,
+              key: _signInKeyForm, // Formulário de validação
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -52,13 +52,17 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                   Column(
                     spacing: 20.0,
                     children: [
-                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80),
+                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone de usuário
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Text('Faça login com seu e-mail e senha para acessar sua conta. Caso ainda não tenha uma, cadastre-se rapidamente. Segurança garantida!', textAlign: TextAlign.center),
+                        child: Text(
+                          'Faça login com seu e-mail e senha para acessar sua conta. Caso ainda não tenha uma, cadastre-se rapidamente. Segurança garantida!',
+                          textAlign: TextAlign.center,
+                        ),
                       )
                     ],
                   ),
+                  // Campo de email
                   Column(
                     spacing: 15.0,
                     children: [
@@ -73,7 +77,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
                         validator:
-                            (value) => combine([
+                            (value) => combine([ // Validação do email
                               () => isNotEmpyt(value),
                               () =>
                                   EmailValidator.validate(value.toString())
@@ -84,20 +88,21 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                       ),
                       Column(
                         children: [
+                          // Campo de senha
                           TextFormFieldWidget(
                             labelText: 'Senha',
                             autofocus: false,
                             controller: _passwordController,
                             inputBorderType: OutlineInputBorder(),
                             inputType: TextInputType.emailAddress,
-                            obscure: _obscurePassword,
+                            obscure: _obscurePassword, // Oculta ou exibe a senha
                             sizeInputBorder: 2.0,
                             fillColor: ColorSchemeManagerClass.colorSecondary,
                             filled: true,
                             iconSuffix: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _obscurePassword = !_obscurePassword;
+                                  _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
                                 });
                               },
                               icon: Icon(
@@ -108,12 +113,13 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                               ),
                             ),
                             validator:
-                                (value) => combine([
+                                (value) => combine([ // Validação da senha
                                   () => isNotEmpyt(value),
                                   () => hasSixChars(value),
                                   () => maxTwoHundredCharacters(value),
                                 ]),
                           ),
+                          // Link para recuperação de senha
                           Align(
                             alignment: Alignment.topRight,
                             child: GestureDetector(
@@ -132,6 +138,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                       ),
                     ],
                   ),
+                  // Botão de login
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -146,7 +153,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                     width: 1.7,
                     onPressed: () async {
                       await signInViewModel.signIn(
-                        SignInModel( email: _emailController.text, password: _passwordController.text),
+                        SignInModel( email: _emailController.text, password: _passwordController.text), // Envia as credenciais
                         context, _signInKeyForm,
                       );
                     },
@@ -161,7 +168,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.push('/signUp'),
+            onTap: () => context.push('/signUp'), // Redireciona para a tela de cadastro
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

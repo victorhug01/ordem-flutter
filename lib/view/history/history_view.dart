@@ -8,6 +8,7 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
+  //Página de historicos, incompleta por questao de tempo
   @override
   Widget build(BuildContext context) {
     return Scaffold(
