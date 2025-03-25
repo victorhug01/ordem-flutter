@@ -42,7 +42,7 @@ Durante o desafio proposto, optei por utilizar **Flutter** para o desenvolviment
 ### Passos para Execução
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seu-usuario/cabeleleila-leila.git
+   git clone https://github.com/victorhug01/cabeleleila-leila.git
    cd cabeleleila-leila
    ```
 
