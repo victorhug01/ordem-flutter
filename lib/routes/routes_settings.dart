@@ -3,7 +3,6 @@ import 'package:cabeleleila/services/supabse/supabase_service.dart';
 import 'package:cabeleleila/view/auth/alterPassword/alter_password_view.dart';
 import 'package:cabeleleila/view/auth/emailForResetPassword/email_for_reset_password_view.dart';
 import 'package:cabeleleila/view/history/history_view.dart';
-import 'package:cabeleleila/view/navigationScreens/navigation_screens_view.dart';
 import 'package:cabeleleila/view/auth/signUp/sign_up_view.dart';
 import 'package:cabeleleila/view/auth/verifyOTP/verify_otp_view.dart';
 import 'package:cabeleleila/view/home/home_view.dart';
@@ -43,7 +42,7 @@ class Routers {
       if (session.session != null && state.matchedLocation == '/alterPasswordView') return null;
 
       // Se a sessão estiver ativa e a rota for pública, redireciona para a tela de navegação.
-      if (session.session != null && publicRoutes.contains(state.matchedLocation)) return '/navigationScreens';
+      if (session.session != null && publicRoutes.contains(state.matchedLocation)) return '/';
 
       return null;  // Retorna null para permitir a navegação normal se não houver condições de redirecionamento.
     },
@@ -65,8 +64,8 @@ class Routers {
         },
       ),
       GoRoute(
-        path: '/home',
-        name: 'home',
+        path: '/',
+        name: '/',
         builder: (BuildContext context, GoRouterState state) {
           return const HomeView();  // Tela principal após o login.
         },
@@ -98,13 +97,6 @@ class Routers {
         name: 'alterPasswordView',
         builder: (BuildContext context, GoRouterState state) {
           return const AlterPasswordView();  // Tela para alterar a senha.
-        },
-      ),
-      GoRoute(
-        path: '/navigationScreens',
-        name: 'navigationScreens',
-        builder: (BuildContext context, GoRouterState state) {
-          return const NavigationScreensView();  // Tela de navegação principal após login.
         },
       ),
       GoRoute(

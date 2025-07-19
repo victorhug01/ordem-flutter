@@ -51,7 +51,7 @@ class SignUpViewModel extends ChangeNotifier {
         if (response.session != null) {
           if (context.mounted) {
             // Redireciona para a tela de navegação
-            context.go('/navigationScreens');
+            context.go('/');
             // Exibe uma mensagem de sucesso
             SnackbarService.showDetails(
               context,

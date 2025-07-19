@@ -28,7 +28,7 @@ class AlterPasswordViewmodel extends ChangeNotifier {
 
         // Se a navegação for possível, exibe a mensagem de sucesso e navega para a tela de navegação principal
         if (context.mounted) {
-          context.go('/navigationScreens');  // Navega para a tela de navegação principal
+          context.go('/');  // Navega para a tela de navegação principal
           SnackbarService.showDetails(
             context,
             "Senha alterada com sucesso!",  // Mensagem de sucesso
