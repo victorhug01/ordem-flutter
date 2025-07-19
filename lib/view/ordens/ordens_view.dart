@@ -35,50 +35,65 @@ class _OrdensPageState extends State<OrdensPage> {
   }
 
   Future<void> salvar() async {
-    final numero = _numeroController.text.trim();
-    final dataAbertura = _dataAberturaController.text.trim();
-    final nomeConsumidor = _nomeConsumidorController.text.trim();
-    final cpf = _cpfController.text.trim();
-    final defeito = _defeitoController.text.trim();
-    final solucao = _solucaoController.text.trim();
+  final numero = _numeroController.text.trim();
+  final dataAbertura = _dataAberturaController.text.trim();
+  final nomeConsumidor = _nomeConsumidorController.text.trim();
+  final cpf = _cpfController.text.trim();
+  final defeito = _defeitoController.text.trim();
+  final solucao = _solucaoController.text.trim();
 
-    if ([
-      numero,
-      dataAbertura,
-      nomeConsumidor,
-      cpf,
-      defeito,
-      produtoSelecionado,
-    ].any((e) => e == null || e.isEmpty)) {
-      showToast('Preencha todos os campos obrigatórios');
-      return;
-    }
+  final userId = supabase.auth.currentUser?.id;
 
-    try {
-      await supabase.from('ordens').insert({
-        'numero_order': numero,
-        'data_abertura': dataAbertura,
-        'nome_consum': nomeConsumidor,
-        'cpf_consumid': cpf,
-        'defeito_reclar': defeito,
-        'solucao_tecnic': solucao,
-        'produto_id': produtoSelecionado,
-        'user_id': supabase.auth.currentUser?.id, // se for obrigatório
-      });
+  debugPrint('📝 Dados inserção:');
+  debugPrint('numero: $numero');
+  debugPrint('data: $dataAbertura');
+  debugPrint('nome: $nomeConsumidor');
+  debugPrint('cpf: $cpf');
+  debugPrint('defeito: $defeito');
+  debugPrint('solucao: $solucao');
+  debugPrint('produto_id: $produtoSelecionado');
+  debugPrint('user_id: $userId');
 
-      _numeroController.clear();
-      _dataAberturaController.clear();
-      _nomeConsumidorController.clear();
-      _cpfController.clear();
-      _defeitoController.clear();
-      _solucaoController.clear();
-      setState(() => produtoSelecionado = null);
-
-      showToast('Ordem cadastrada com sucesso!');
-    } catch (e) {
-      showToast('Erro ao cadastrar ordem');
-    }
+  if ([numero, dataAbertura, nomeConsumidor, cpf, defeito, produtoSelecionado].any((e) => e == null || e.isEmpty)) {
+    showToast('Preencha todos os campos obrigatórios');
+    return;
   }
+
+  if (userId == null) {
+    showToast('Usuário não autenticado');
+    return;
+  }
+
+  try {
+    final response = await supabase.from('ordens_servico').insert({
+      'numero_ordem': numero,
+      'data_abertura': dataAbertura,
+      'nome_consumidor': nomeConsumidor,
+      'cpf_consumidor': cpf,
+      'defeito_reclamado': defeito,
+      'solucao_tecnico': solucao,
+      'produto_id': produtoSelecionado,
+      'user_id': userId,
+    }).select();
+
+    debugPrint('✅ Ordem criada: $response');
+    showToast('Ordem cadastrada com sucesso!');
+
+    _numeroController.clear();
+    _dataAberturaController.clear();
+    _nomeConsumidorController.clear();
+    _cpfController.clear();
+    _defeitoController.clear();
+    _solucaoController.clear();
+    setState(() => produtoSelecionado = null);
+
+  } catch (e, stacktrace) {
+    debugPrint('❌ Erro ao cadastrar ordem: $e');
+    debugPrint('📍 Stacktrace: $stacktrace');
+    showToast('Erro ao cadastrar ordem');
+  }
+}
+
 
   void showToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
