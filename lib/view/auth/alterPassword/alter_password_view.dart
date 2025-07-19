@@ -1,9 +1,9 @@
-import 'package:cabeleleila/app/theme.dart';
-import 'package:cabeleleila/helpers/validations_mixin.dart';
-import 'package:cabeleleila/models/alter_password_model.dart';
-import 'package:cabeleleila/viewmodel/alter_password_viewmodel.dart';
-import 'package:cabeleleila/widgets/button_widget.dart';
-import 'package:cabeleleila/widgets/textformfield_widget.dart';
+import 'package:ordem/app/theme.dart';
+import 'package:ordem/helpers/validations_mixin.dart';
+import 'package:ordem/models/alter_password_model.dart';
+import 'package:ordem/viewmodel/alter_password_viewmodel.dart';
+import 'package:ordem/widgets/button_widget.dart';
+import 'package:ordem/widgets/textformfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _alterPasswordForm = GlobalKey<FormState>();
-  bool _obscurePassword = true; // Controla a visibilidade da senha
+  bool _obscurePassword = true; 
 
   @override
   void dispose() {
@@ -30,7 +30,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
 
   @override
   Widget build(BuildContext context) {
-    final alterPasswordViewmodel = Provider.of<AlterPasswordViewmodel>(context); // Acessa o ViewModel
+    final alterPasswordViewmodel = Provider.of<AlterPasswordViewmodel>(context); 
     return Scaffold(
       appBar: AppBar(),
       extendBody: true,
@@ -49,11 +49,11 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 50.0,
                 children: [
-                  CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone do usuário
+                  CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), 
                   Column(
                     spacing: 15.0,
                     children: [
-                      // Campo de senha
+                      
                       TextFormFieldWidget(
                         labelText: 'Senha',
                         autofocus: false,
@@ -67,7 +67,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
+                              _obscurePassword = !_obscurePassword; 
                             });
                           },
                           icon: Icon(
@@ -78,13 +78,13 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                           ),
                         ),
                         validator:
-                            (value) => combine([ // Validações para a senha
+                            (value) => combine([ 
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
                             ]),
                       ),
-                      // Campo de confirmação de senha
+                      
                       TextFormFieldWidget(
                         labelText: 'Confirmar senha',
                         autofocus: false,
@@ -98,7 +98,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
+                              _obscurePassword = !_obscurePassword; 
                             });
                           },
                           icon: Icon(
@@ -109,16 +109,16 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                           ),
                         ),
                         validator:
-                            (value) => combine([ // Validações para a confirmação de senha
+                            (value) => combine([ 
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
-                              () => value != _passwordController.text ? 'Senhas diferentes' : null, // Senhas precisam ser iguais
+                              () => value != _passwordController.text ? 'Senhas diferentes' : null, 
                             ]),
                       ),
                     ],
                   ),
-                  // Botão para redefinir senha
+                  
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -133,7 +133,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
                     width: 1.7,
                     onPressed: () async {
                       await alterPasswordViewmodel.updateUser(
-                        AlterPasswordModel(password: _passwordController.text), // Atualiza a senha
+                        AlterPasswordModel(password: _passwordController.text), 
                         context, _alterPasswordForm,
                       );
                     },
@@ -148,7 +148,7 @@ class _AlterPasswordViewState extends State<AlterPasswordView> with ValidationMi
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.push('/signUp'), // Redireciona para a tela de cadastro
+            onTap: () => context.push('/signUp'), 
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

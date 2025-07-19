@@ -1,9 +1,9 @@
-import 'package:cabeleleila/app/theme.dart';
-import 'package:cabeleleila/helpers/validations_mixin.dart';
-import 'package:cabeleleila/models/sign_up_model.dart';
-import 'package:cabeleleila/viewmodel/sign_up_viewmodel.dart';
-import 'package:cabeleleila/widgets/button_widget.dart';
-import 'package:cabeleleila/widgets/textformfield_widget.dart';
+import 'package:ordem/app/theme.dart';
+import 'package:ordem/helpers/validations_mixin.dart';
+import 'package:ordem/models/sign_up_model.dart';
+import 'package:ordem/viewmodel/sign_up_viewmodel.dart';
+import 'package:ordem/widgets/button_widget.dart';
+import 'package:ordem/widgets/textformfield_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,17 +25,17 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
 
   @override
   void dispose() {
-    _emailController.dispose(); // Libera o controlador de email
-    _passwordController.dispose(); // Libera o controlador de senha
-    _confirmPasswordController.dispose(); // Libera o controlador de confirmação de senha
+    _emailController.dispose(); 
+    _passwordController.dispose(); 
+    _confirmPasswordController.dispose(); 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final signUpViewModel = Provider.of<SignUpViewModel>(context); // Acessa o ViewModel de cadastro
+    final signUpViewModel = Provider.of<SignUpViewModel>(context); 
     return Scaffold(
-      appBar: AppBar(), // Barra de navegação
+      appBar: AppBar(), 
       backgroundColor: ColorSchemeManagerClass.colorSecondary,
       body: SafeArea(
         child: Container(
@@ -46,7 +46,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
           child: SingleChildScrollView(
             reverse: true,
             child: Form(
-              key: _signUpKeyForm, // Formulário de validação
+              key: _signUpKeyForm, 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +55,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                   Column(
                     spacing: 10.0,
                     children: [
-                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone de usuário
+                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), 
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
@@ -65,7 +65,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                       )
                     ],
                   ),
-                  // Campos de email, senha e confirmação de senha
+                  
                   Column(
                     spacing: 15.0,
                     children: [
@@ -80,7 +80,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
                         validator:
-                            (value) => combine([ // Validação de email
+                            (value) => combine([ 
                               () => isNotEmpyt(value),
                               () =>
                                   EmailValidator.validate(value.toString())
@@ -95,14 +95,14 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                         controller: _passwordController,
                         inputBorderType: OutlineInputBorder(),
                         inputType: TextInputType.emailAddress,
-                        obscure: _obscurePassword, // Oculta ou exibe a senha
+                        obscure: _obscurePassword, 
                         sizeInputBorder: 2.0,
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
+                              _obscurePassword = !_obscurePassword; 
                             });
                           },
                           icon: Icon(
@@ -113,7 +113,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                           ),
                         ),
                         validator:
-                            (value) => combine([ // Validação de senha
+                            (value) => combine([ 
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
@@ -125,14 +125,14 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                         controller: _confirmPasswordController,
                         inputBorderType: OutlineInputBorder(),
                         inputType: TextInputType.emailAddress,
-                        obscure: _obscurePassword, // Confirmação de senha
+                        obscure: _obscurePassword, 
                         sizeInputBorder: 2.0,
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
                         iconSuffix: IconButton(
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
+                              _obscurePassword = !_obscurePassword; 
                             });
                           },
                           icon: Icon(
@@ -143,16 +143,16 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                           ),
                         ),
                         validator:
-                            (value) => combine([ // Validação da confirmação de senha
+                            (value) => combine([ 
                               () => isNotEmpyt(value),
                               () => hasSixChars(value),
                               () => maxTwoHundredCharacters(value),
-                              () => value != _passwordController.text ? 'Senhas diferentes!' : null, // Verifica se a senha e confirmação são iguais
+                              () => value != _passwordController.text ? 'Senhas diferentes!' : null, 
                             ]),
                       ),
                     ],
                   ),
-                  // Botão de cadastro
+                  
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -167,7 +167,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
                     width: 1.7,
                     onPressed: () async {
                       await signUpViewModel.signUp(
-                        SignUpModel( email: _emailController.text, password: _passwordController.text), // Envia dados de cadastro
+                        SignUpModel( email: _emailController.text, password: _passwordController.text), 
                         context, _signUpKeyForm,
                       );
                     },
@@ -182,7 +182,7 @@ class _SignUpViewState extends State<SignUpView> with ValidationMixinClass {
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.pop(), // Volta para a tela anterior (login)
+            onTap: () => context.pop(), 
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

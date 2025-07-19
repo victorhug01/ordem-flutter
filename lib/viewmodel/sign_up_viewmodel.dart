@@ -1,86 +1,71 @@
-import 'package:cabeleleila/app/theme.dart';  // Tema do app, utilizado para acessar cores e estilos personalizados
-import 'package:cabeleleila/models/sign_up_model.dart';  // Modelo de dados que contém as informações de cadastro (email e senha)
-import 'package:cabeleleila/services/supabse/supabase_service.dart';  // Serviço para interação com o Supabase, usado para realizar o cadastro
-import 'package:cabeleleila/widgets/snackbar_widget.dart';  // Widget customizado para exibir mensagens tipo SnackBar
-import 'package:flutter/material.dart';  // Biblioteca principal do Flutter
-import 'package:go_router/go_router.dart';  // Pacote para gerenciamento de rotas de navegação
+import 'package:ordem/app/theme.dart';
+import 'package:ordem/models/sign_up_model.dart';
+import 'package:ordem/services/supabse/supabase_service.dart';
+import 'package:ordem/widgets/snackbar_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-/// ViewModel responsável pela lógica de cadastro do usuário.
-///
-/// Ele interage com o serviço Supabase para realizar o cadastro de um novo usuário,
-/// exibe um indicador de progresso enquanto aguarda a resposta do Supabase,
-/// e redireciona para a tela de navegação após o sucesso. Caso ocorra algum erro,
-/// uma mensagem de erro é exibida utilizando o `SnackbarService`.
 class SignUpViewModel extends ChangeNotifier {
-  // Instância do serviço Supabase que será utilizada para o cadastro de usuários
   final SupabaseService _supabaseService = SupabaseService();
 
-  /// Função que realiza o cadastro de um novo usuário.
-  ///
-  /// Verifica se o formulário foi preenchido corretamente. Caso sim, exibe um
-  /// indicador de progresso, realiza o cadastro do usuário utilizando o Supabase,
-  /// e, em caso de sucesso, redireciona o usuário para a tela de navegação.
-  /// Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
   Future<void> signUp(
-    SignUpModel signUpModel,  // Dados do usuário a serem cadastrados
-    BuildContext context,  // Contexto da interface para navegação e exibição de mensagens
-    GlobalKey<FormState> signUpKeyForm,  // Chave do formulário para validação
+    SignUpModel signUpModel,
+    BuildContext context,
+    GlobalKey<FormState> signUpKeyForm,
   ) async {
     try {
-      notifyListeners();  // Notifica os ouvintes de alterações no estado
+      notifyListeners();
 
-      // Verifica se o formulário foi preenchido corretamente
       if (signUpKeyForm.currentState!.validate()) {
         if (context.mounted) {
-          // Exibe um indicador de progresso enquanto o cadastro está sendo processado
           showDialog(
             context: context,
-            barrierDismissible: false,  // Impede que o usuário feche a caixa de diálogo
+            barrierDismissible: false,
             builder: (BuildContext context) {
               return Center(
-                child: CircularProgressIndicator(color: ColorSchemeManagerClass.colorPrimary),  // Indicador de progresso
+                child: CircularProgressIndicator(
+                  color: ColorSchemeManagerClass.colorPrimary,
+                ),
               );
             },
           );
         }
 
-        // Chama o método de cadastro no serviço Supabase
-        final response = await _supabaseService.signUp(signUpModel.email, signUpModel.password);
+        final response = await _supabaseService.signUp(
+          signUpModel.email,
+          signUpModel.password,
+        );
 
-        // Verifica se o cadastro foi bem-sucedido
         if (response.session != null) {
           if (context.mounted) {
-            // Redireciona para a tela de navegação
             context.go('/');
-            // Exibe uma mensagem de sucesso
+
             SnackbarService.showDetails(
               context,
               "Cadastro realizado com sucesso!",
-              ColorSchemeManagerClass.colorCorrect,  // Cor de sucesso
+              ColorSchemeManagerClass.colorCorrect,
             );
           }
         } else {
-          throw Exception("Falha ao cadastrar, tente novamente.");  // Exceção caso o cadastro falhe
+          throw Exception("Falha ao cadastrar, tente novamente.");
         }
       } else {
-        // Caso o formulário não esteja correto, exibe uma mensagem de erro
         SnackbarService.showDetails(
           context,
-          "Preencha corretamente os campos",  // Mensagem de erro
-          ColorSchemeManagerClass.colorDanger,  // Cor de erro
+          "Preencha corretamente os campos",
+          ColorSchemeManagerClass.colorDanger,
         );
       }
     } catch (e) {
-      // Se ocorrer algum erro durante o processo, exibe a mensagem de erro
       if (context.mounted) {
         SnackbarService.showDetails(
           context,
-          e.toString(),  // Exibe o erro gerado
-          ColorSchemeManagerClass.colorDanger,  // Cor de erro
+          e.toString(),
+          ColorSchemeManagerClass.colorDanger,
         );
       }
     } finally {
-      notifyListeners();  // Notifica novamente os ouvintes após o processo
+      notifyListeners();
     }
   }
 }

@@ -1,6 +1,8 @@
-import 'package:cabeleleila/models/sign_out_model.dart';
-import 'package:cabeleleila/viewmodel/sign_out_viewmodel.dart';
+import 'package:ordem/app/theme.dart';
+import 'package:ordem/models/sign_out_model.dart';
+import 'package:ordem/viewmodel/sign_out_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:ordem/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -11,7 +13,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool _isLoggingOut = false; // Para controlar o estado do botão de logout
+  bool _isLoggingOut = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +23,45 @@ class _HomeViewState extends State<HomeView> {
         title: const Text("Home"),
         actions: [
           _isLoggingOut
-              ? const CircularProgressIndicator() // Mostrar indicador de progresso
+              ? const CircularProgressIndicator()
               : IconButton(
-                  icon: const Icon(Icons.exit_to_app),
-                  onPressed: () async {
-                    setState(() {
-                      _isLoggingOut = true; // Ativar indicador de progresso
-                    });
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () async {
+                  setState(() {
+                    _isLoggingOut = true;
+                  });
 
-                    // Realizar o logout
-                    await context.read<SignOutViewModel>().signOut(SignOutModel(), context);
+                  await context.read<SignOutViewModel>().signOut(
+                    SignOutModel(),
+                    context,
+                  );
 
-                    setState(() {
-                      _isLoggingOut = false; // Desativar indicador de progresso
-                    });
-
-                    // Após o logout, redireciona para a tela de login
-                    // context.push('/signIn'); // Ou use outra navegação dependendo do seu fluxo
-                  },
-                ),
+                  setState(() {
+                    _isLoggingOut = false;
+                  });
+                },
+              ),
         ],
       ),
-      body: Center(
-        child: Text('Home Page'),
+      body: SafeArea(
+        child: Column(
+          children: [
+            ButtonWidget(
+              color: ColorSchemeManagerClass.colorPrimary,
+              title: Text(
+                'Conectar',
+                style: TextStyle(
+                  color: ColorSchemeManagerClass.colorSecondary,
+                  fontSize: TextTheme.of(context).titleMedium!.fontSize,
+                ),
+              ),
+              radius: 10.0,
+              height: 55.0,
+              width: 1.7,
+              onPressed: () async {},
+            ),
+          ],
+        ),
       ),
     );
   }

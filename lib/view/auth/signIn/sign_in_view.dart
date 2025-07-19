@@ -1,9 +1,9 @@
-import 'package:cabeleleila/app/theme.dart';
-import 'package:cabeleleila/helpers/validations_mixin.dart';
-import 'package:cabeleleila/models/sign_in_model.dart';
-import 'package:cabeleleila/viewmodel/sign_in_viewmodel.dart';
-import 'package:cabeleleila/widgets/button_widget.dart';
-import 'package:cabeleleila/widgets/textformfield_widget.dart';
+import 'package:ordem/app/theme.dart';
+import 'package:ordem/helpers/validations_mixin.dart';
+import 'package:ordem/models/sign_in_model.dart';
+import 'package:ordem/viewmodel/sign_in_viewmodel.dart';
+import 'package:ordem/widgets/button_widget.dart';
+import 'package:ordem/widgets/textformfield_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,14 +24,14 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
 
   @override
   void dispose() {
-     _emailController.dispose(); // Libera o controlador de email quando a tela for descartada
-    _passwordController.dispose(); // Libera o controlador de senha quando a tela for descartada
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final signInViewModel = Provider.of<SignInViewModel>(context); // Acessa o ViewModel de login
+    final signInViewModel = Provider.of<SignInViewModel>(context);
     return Scaffold(
       extendBody: true,
       backgroundColor: ColorSchemeManagerClass.colorSecondary,
@@ -43,7 +43,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
           child: SingleChildScrollView(
             reverse: true,
             child: Form(
-              key: _signInKeyForm, // Formulário de validação
+              key: _signInKeyForm,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -52,17 +52,20 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                   Column(
                     spacing: 20.0,
                     children: [
-                      CircleAvatar(backgroundImage: AssetImage('assets/images/icon.jpg'), radius: 80), // Ícone de usuário
+                      CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/icon.jpg'),
+                        radius: 80,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           'Faça login com seu e-mail e senha para acessar sua conta. Caso ainda não tenha uma, cadastre-se rapidamente. Segurança garantida!',
                           textAlign: TextAlign.center,
                         ),
-                      )
+                      ),
                     ],
                   ),
-                  // Campo de email
+
                   Column(
                     spacing: 15.0,
                     children: [
@@ -77,7 +80,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                         fillColor: ColorSchemeManagerClass.colorSecondary,
                         filled: true,
                         validator:
-                            (value) => combine([ // Validação do email
+                            (value) => combine([
                               () => isNotEmpyt(value),
                               () =>
                                   EmailValidator.validate(value.toString())
@@ -88,21 +91,20 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                       ),
                       Column(
                         children: [
-                          // Campo de senha
                           TextFormFieldWidget(
                             labelText: 'Senha',
                             autofocus: false,
                             controller: _passwordController,
                             inputBorderType: OutlineInputBorder(),
                             inputType: TextInputType.emailAddress,
-                            obscure: _obscurePassword, // Oculta ou exibe a senha
+                            obscure: _obscurePassword,
                             sizeInputBorder: 2.0,
                             fillColor: ColorSchemeManagerClass.colorSecondary,
                             filled: true,
                             iconSuffix: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _obscurePassword = !_obscurePassword; // Alterna visibilidade da senha
+                                  _obscurePassword = !_obscurePassword;
                                 });
                               },
                               icon: Icon(
@@ -113,23 +115,27 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                               ),
                             ),
                             validator:
-                                (value) => combine([ // Validação da senha
+                                (value) => combine([
                                   () => isNotEmpyt(value),
                                   () => hasSixChars(value),
                                   () => maxTwoHundredCharacters(value),
                                 ]),
                           ),
-                          // Link para recuperação de senha
+
                           Align(
                             alignment: Alignment.topRight,
                             child: GestureDetector(
-                              onTap: () => context.push('/emailForResetPasswordView'),
+                              onTap:
+                                  () => context.push(
+                                    '/emailForResetPasswordView',
+                                  ),
                               child: Text(
                                 "Esqueci minha senha",
                                 style: TextStyle(
                                   color: ColorSchemeManagerClass.colorBlack,
                                   decoration: TextDecoration.underline,
-                                  decorationColor: ColorSchemeManagerClass.colorPrimary,
+                                  decorationColor:
+                                      ColorSchemeManagerClass.colorPrimary,
                                 ),
                               ),
                             ),
@@ -138,7 +144,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                       ),
                     ],
                   ),
-                  // Botão de login
+
                   ButtonWidget(
                     color: ColorSchemeManagerClass.colorPrimary,
                     title: Text(
@@ -153,8 +159,12 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                     width: 1.7,
                     onPressed: () async {
                       await signInViewModel.signIn(
-                        SignInModel( email: _emailController.text, password: _passwordController.text), // Envia as credenciais
-                        context, _signInKeyForm,
+                        SignInModel(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+                        context,
+                        _signInKeyForm,
                       );
                     },
                   ),
@@ -168,7 +178,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
         height: 50,
         child: Center(
           child: GestureDetector(
-            onTap: () => context.push('/signUp'), // Redireciona para a tela de cadastro
+            onTap: () => context.push('/signUp'),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 5,

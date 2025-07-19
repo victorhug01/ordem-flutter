@@ -1,4 +1,4 @@
-package com.cabeleleila.cabeleleila
+package com.ordem.ordem
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,11 +1,7 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';  // Biblioteca para criar o dropdown customizado
-import 'package:cabeleleila/app/theme.dart';  // Tema do app, utilizado para acessar cores e estilos
-import 'package:flutter/material.dart';  // Biblioteca principal do Flutter
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:ordem/app/theme.dart';
+import 'package:flutter/material.dart';
 
-/// Tela para exibir os serviços e agendamentos do usuário.
-///
-/// Esta tela permite ao usuário selecionar um tipo de serviço de um dropdown,
-/// adicionar outro serviço, escolher uma data e hora para o serviço.
 class ServicesView extends StatefulWidget {
   const ServicesView({super.key});
 
@@ -14,18 +10,15 @@ class ServicesView extends StatefulWidget {
 }
 
 class _ServicesViewState extends State<ServicesView> {
-  // Variáveis para armazenar a data e o horário selecionados
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  /// Função para selecionar o horário utilizando o showTimePicker.
   Future<void> _selectTime(BuildContext context) async {
-    // Exibe o seletor de hora e aguarda a escolha do usuário
     final TimeOfDay? picked = await showTimePicker(
-      context: context, initialTime: TimeOfDay.now(),
+      context: context,
+      initialTime: TimeOfDay.now(),
     );
 
-    // Atualiza o estado se o horário selecionado for diferente do atual
     if (picked != null && picked != selectedTime) {
       setState(() {
         selectedTime = picked;
@@ -33,17 +26,14 @@ class _ServicesViewState extends State<ServicesView> {
     }
   }
 
-  /// Função para selecionar a data utilizando o showDatePicker.
   Future<void> _selectDate(BuildContext context) async {
-    // Exibe o seletor de data e aguarda a escolha do usuário
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),  // Data inicial
-      firstDate: DateTime.now(),    // Primeira data permitida
-      lastDate: DateTime(2100),     // Última data permitida
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
     );
 
-    // Atualiza o estado se a data selecionada for diferente da atual
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
@@ -53,69 +43,76 @@ class _ServicesViewState extends State<ServicesView> {
 
   @override
   Widget build(BuildContext context) {
-    // Lista de tipos de trabalho disponíveis no dropdown
-    final List<String> list = ['Developer', 'Designer', 'Consultant', 'Student'];
+    final List<String> list = [
+      'Developer',
+      'Designer',
+      'Consultant',
+      'Student',
+    ];
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(25.0),  // Espaçamento em torno dos widgets
+        padding: const EdgeInsets.all(25.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,  // Centraliza os widgets
-          spacing: 20.0,  // Espaçamento entre os widgets
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20.0,
           children: [
-            // Dropdown personalizado para selecionar um tipo de trabalho
             CustomDropdown<String>(
               decoration: CustomDropdownDecoration(
                 listItemDecoration: ListItemDecoration(),
-                closedBorder: Border.all(width: 3, color: ColorSchemeManagerClass.colorPrimary),
-                expandedBorder: Border.all(width: 3, color: ColorSchemeManagerClass.colorPrimary),
-                headerStyle: TextStyle(color: ColorSchemeManagerClass.colorBlack),
-                listItemStyle: TextStyle(color: ColorSchemeManagerClass.colorBlack),
+                closedBorder: Border.all(
+                  width: 3,
+                  color: ColorSchemeManagerClass.colorPrimary,
+                ),
+                expandedBorder: Border.all(
+                  width: 3,
+                  color: ColorSchemeManagerClass.colorPrimary,
+                ),
+                headerStyle: TextStyle(
+                  color: ColorSchemeManagerClass.colorBlack,
+                ),
+                listItemStyle: TextStyle(
+                  color: ColorSchemeManagerClass.colorBlack,
+                ),
                 expandedBorderRadius: BorderRadius.circular(10),
               ),
-              hintText: 'Selecionar trabalho',  // Texto do hint no dropdown
-              items: list,  // Itens disponíveis no dropdown
-              initialItem: list[0],  // Item inicial selecionado
+              hintText: 'Selecionar trabalho',
+              items: list,
+              initialItem: list[0],
               excludeSelected: false,
-              onChanged: (value) {},  // Função que é chamada ao selecionar um item (aqui não faz nada)
+              onChanged: (value) {},
             ),
-            
-            // Botão para adicionar outro serviço
+
             GestureDetector(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.add),  // Ícone de adicionar
-                  Text('Adicionar outro serviço')  // Texto
-                ],
+                children: [Icon(Icons.add), Text('Adicionar outro serviço')],
               ),
             ),
-            
-            // Seletor de data
+
             GestureDetector(
-              onTap: () => _selectDate(context),  // Chama a função para selecionar a data
+              onTap: () => _selectDate(context),
               child: ListTile(
                 contentPadding: EdgeInsets.all(0),
                 title: Text(
                   selectedDate == null
-                      ? 'Selecionar data'  // Texto padrão quando nenhuma data for selecionada
-                      : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',  // Exibe a data selecionada
+                      ? 'Selecionar data'
+                      : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
                 ),
-                trailing: Icon(Icons.calendar_month_outlined),  // Ícone de calendário
+                trailing: Icon(Icons.calendar_month_outlined),
               ),
             ),
-            
-            // Seletor de horário
+
             GestureDetector(
-              onTap: () => _selectTime(context),  // Chama a função para selecionar o horário
+              onTap: () => _selectTime(context),
               child: ListTile(
                 contentPadding: EdgeInsets.all(0),
                 title: Text(
                   selectedTime == null
-                      ? 'Selecionar horário'  // Texto padrão quando nenhum horário for selecionado
-                      : selectedTime!.format(context),  // Exibe o horário selecionado
+                      ? 'Selecionar horário'
+                      : selectedTime!.format(context),
                 ),
-                trailing: Icon(Icons.timer_outlined),  // Ícone de relógio
+                trailing: Icon(Icons.timer_outlined),
               ),
             ),
           ],
