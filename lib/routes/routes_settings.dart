@@ -2,12 +2,13 @@ import 'package:ordem/services/internet/connection.dart';
 import 'package:ordem/services/supabse/supabase_service.dart';
 import 'package:ordem/view/auth/alterPassword/alter_password_view.dart';
 import 'package:ordem/view/auth/emailForResetPassword/email_for_reset_password_view.dart';
-import 'package:ordem/view/history/history_view.dart';
 import 'package:ordem/view/auth/signUp/sign_up_view.dart';
 import 'package:ordem/view/auth/verifyOTP/verify_otp_view.dart';
 import 'package:ordem/view/home/home_view.dart';
 import 'package:ordem/view/internet/internet_not_found_view.dart';
 import 'package:ordem/view/auth/signIn/sign_in_view.dart';
+import 'package:ordem/view/ordens/ordens_view.dart';
+import 'package:ordem/view/products/products_view.dart';
 import 'package:ordem/view/services/services_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -30,17 +31,11 @@ class Routers {
 
       if (!hasConnection) return '/connectivity';
 
-      if (session.session == null &&
-          !publicRoutes.contains(state.matchedLocation))
-        return '/signIn';
+      if (session.session == null &&!publicRoutes.contains(state.matchedLocation)) return '/signIn';
 
-      if (session.session != null &&
-          state.matchedLocation == '/alterPasswordView')
-        return null;
+      if (session.session != null &&state.matchedLocation == '/alterPasswordView') return null;
 
-      if (session.session != null &&
-          publicRoutes.contains(state.matchedLocation))
-        return '/';
+      if (session.session != null && publicRoutes.contains(state.matchedLocation)) return '/';
 
       return null;
     },
@@ -104,10 +99,17 @@ class Routers {
         },
       ),
       GoRoute(
-        path: '/history',
-        name: 'history',
+        path: '/ordens',
+        name: 'ordens',
         builder: (BuildContext context, GoRouterState state) {
-          return const HistoryView();
+          return OrdensPage();
+        },
+      ),
+      GoRoute(
+        path: '/products',
+        name: 'products',
+        builder: (BuildContext context, GoRouterState state) {
+          return ProductsPage();
         },
       ),
     ],

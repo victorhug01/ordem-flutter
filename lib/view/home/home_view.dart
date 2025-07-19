@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:ordem/app/theme.dart';
 import 'package:ordem/models/sign_out_model.dart';
 import 'package:ordem/viewmodel/sign_out_viewmodel.dart';
@@ -44,23 +45,46 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            ButtonWidget(
-              color: ColorSchemeManagerClass.colorPrimary,
-              title: Text(
-                'Conectar',
-                style: TextStyle(
-                  color: ColorSchemeManagerClass.colorSecondary,
-                  fontSize: TextTheme.of(context).titleMedium!.fontSize,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 20.0,
+            children: [
+              ButtonWidget(
+                color: ColorSchemeManagerClass.colorPrimary,
+                title: Text(
+                  'Produtos',
+                  style: TextStyle(
+                    color: ColorSchemeManagerClass.colorSecondary,
+                    fontSize: TextTheme.of(context).titleMedium!.fontSize,
+                  ),
                 ),
+                radius: 10.0,
+                height: 55.0,
+                width: 1.7,
+                onPressed: () async {
+                  context.pushNamed('products');
+                },
               ),
-              radius: 10.0,
-              height: 55.0,
-              width: 1.7,
-              onPressed: () async {},
-            ),
-          ],
+              ButtonWidget(
+                color: ColorSchemeManagerClass.colorPrimary,
+                title: Text(
+                  'Ordens',
+                  style: TextStyle(
+                    color: ColorSchemeManagerClass.colorSecondary,
+                    fontSize: TextTheme.of(context).titleMedium!.fontSize,
+                  ),
+                ),
+                radius: 10.0,
+                height: 55.0,
+                width: 1.7,
+                onPressed: () async {
+                  context.pushNamed('ordens');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
