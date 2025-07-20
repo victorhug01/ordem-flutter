@@ -52,10 +52,7 @@ class _SignInViewState extends State<SignInView> with ValidationMixinClass {
                   Column(
                     spacing: 20.0,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/icon.jpg'),
-                        radius: 80,
-                      ),
+                      FlutterLogo(),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(

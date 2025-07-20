@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ServicesViewmodel()),
       ],
       child: MaterialApp.router(
-        title: 'ordem Leila',
+        title: 'ordem flutter',
         debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
